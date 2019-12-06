@@ -1,4 +1,5 @@
 # Github trends api
+[![npm version](https://badge.fury.io/js/github-trends-api.svg)](https://badge.fury.io/js/github-trends-api)  
 ```
 npm i github-trends-api
 ```
