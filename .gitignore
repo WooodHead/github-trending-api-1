@@ -7,5 +7,6 @@ node_modules/
 # project files
 examples/
 dist/
+build/
 
 .cache

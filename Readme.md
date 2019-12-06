@@ -1,4 +1,7 @@
 # Github trends api
+```
+npm i github-trends-api
+```
 
 ## Usage
 ```js
@@ -21,12 +24,8 @@ const options = {
 }
 
 githubTrends(options)
-  .then(result => {
-    console.log(result)
-  })
-  .catch(error => {
-    console.log(error)
-  })
+  .then(result => { console.log(result) })
+  .catch(error => { console.log(error) })
 ```
 
 ### Response 
@@ -43,4 +42,9 @@ githubTrends(options)
   "stars": "3,797",
   "laststars": "121"
 }]
+```
+
+## Tests 
+```
+https://npm.runkit.com/github-trends-api
 ```

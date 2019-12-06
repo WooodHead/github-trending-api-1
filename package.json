@@ -4,10 +4,9 @@
   "description": "github trends api repositories and developers",
   "main": "build/index.cjs.js",
   "module": "build/index.esm.js",
-  "scripts": {
-    "examples": "rimraf -rf build && parcel examples/index.html",
-    "clean": "rimraf -rf index.js",
+  "scripts": {    
     "build": "npm run clean && rollup -c",
+    "clean": "rimraf -rf index.js",    
     "test": "node tests/githubTrends.js"
   },
   "devDependencies": {
