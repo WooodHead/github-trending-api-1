@@ -1,53 +1,23 @@
-import cheerio from 'cheerio';
-import axios from 'axios';
+import getRepos from './getRepos';
+import getDevelopers from './getDevelopers';
 
-function githubTrends ({ section = '', lang = '', since = '' }) { // https://github.com/trending/javascript?since=daily  
+function getUrl (section, language, since, spoken_language_code) {
+  const BASE_URL = 'https://github.com/trending';
 
-  const BASE_URL = 'https://github.com/';
-  const trendUrl = `${BASE_URL}trending/`;
-  const url = section
-    ? `${trendUrl}developers/${lang}?since=${since}`
-    : `${trendUrl}${lang}?since=${since}`
+  let FETCH_URL = (section ? BASE_URL + '/developers' : BASE_URL);
 
-  return new Promise((resolve, reject) => {
-    axios.get(url, { method: 'get', responseType: 'text' })
-      .then(r => {
+  FETCH_URL = (language ? FETCH_URL + '/' + language : FETCH_URL) + '?since=' + since;
 
-        const $ = cheerio.load(r.data)
-        const box = $('.Box article.Box-row')
+  FETCH_URL = spoken_language_code
+    ? (FETCH_URL + '&spoken_language_code=' + spoken_language_code)
+    : FETCH_URL;
 
-        const result = box.get().map(el => {
-          const item = $(el)
-          const description = item.find('p.col-9').text().trim();
-          const [author, reponame] = item.find('.h3').text().split('/').map(v => v.trim());
-
-          const repolink = BASE_URL + item.find('.h3.lh-condensed a').attr('href');
-
-          const language = item.find('[itemprop=programmingLanguage]').text();
-          const color = item.find('.repo-language-color').attr('style');
-          const languageColor = color ? color.replace('background-color: ', '') : '';
-
-          const [stars, laststars] = item.find("svg[aria-label='star']").parent().text().trim().split(/\s+|\n/g);
-          const forks = item.find("svg[aria-label='repo-forked']").parent().text().trim();
-
-          return {
-            author,
-            avatar: `${BASE_URL}${author}.png`,
-            reponame, repolink,
-            description,
-            forks,
-            language,
-            languageColor,
-            stars, laststars
-          }
-        })
-
-        resolve(result)
-      })
-      .catch(e => {
-        reject(e);
-      })
-  })
+  return FETCH_URL;
 }
 
-export default githubTrends;
+export default function githubTrends ({ section, language, since = 'daily', spoken_language_code } = {}) {
+
+  const FETCH_URL = getUrl(section, language, since, spoken_language_code);
+
+  return section ? getDevelopers(FETCH_URL) : getRepos(FETCH_URL);
+}

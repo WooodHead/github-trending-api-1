@@ -1,8 +1,8 @@
 const githubTrends = require('../build/index.cjs')
 
-githubTrends({ lang: "javascript", since: "weekly" })
+githubTrends({ since:'weekly' })
   .then(r => {
-    console.log(r);
+    console.log(r[0]);
 
   })
   .catch(e => {

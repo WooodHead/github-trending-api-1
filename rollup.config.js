@@ -1,5 +1,6 @@
-import babel from 'rollup-plugin-babel';
-import cleanup from 'rollup-plugin-cleanup';
+import { terser } from "rollup-plugin-terser";
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 
 export default {
   input: 'src/main.js',
@@ -14,8 +15,8 @@ export default {
     }
   ],
   plugins: [
-    babel({ exclude: 'node_modules/**' }),
-    cleanup()
+    commonjs(),
+   // resolve(),    
+    terser()
   ],
 };
-
