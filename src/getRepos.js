@@ -34,8 +34,8 @@ export default function getRepos (FETCH_URL) {
             };
           }).get();
 
-          let [stars, forks, laststars] = $(el).find('.d-inline-block').text().match(/(\d+\.|\d+)+/g);
-
+          let [stars, forks, laststars] = $(el).find('.d-inline-block').text().replace(/\,/g,'').match(/(\d+\.|\d+)+/g);
+        
           return {
             author,
             reponame,
